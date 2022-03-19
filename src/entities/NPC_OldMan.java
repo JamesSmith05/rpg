@@ -2,7 +2,6 @@ package entities;
 
 import logic.GamePanel;
 
-import java.awt.*;
 import java.util.Random;
 
 public class NPC_OldMan extends Entity{
@@ -13,7 +12,11 @@ public class NPC_OldMan extends Entity{
         direction = "down";
         speed = 1;
 
-        solidArea = new Rectangle(12, 16, 24, 28);
+        //sets collision area
+        solidArea.x = 12;
+        solidArea.y = 16;
+        solidArea.width = 24;
+        solidArea.height = 28;
         solidAreaDefaultX = solidArea.x;
         solidAreaDefaultY = solidArea.y;
 

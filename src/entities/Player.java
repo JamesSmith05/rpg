@@ -2,12 +2,9 @@ package entities;
 
 import logic.KeyHandler;
 import logic.GamePanel;
-import logic.UtilityTool;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.IOException;
-import javax.imageio.*;
 
 public class Player extends Entity {
     GamePanel gp;
@@ -85,11 +82,21 @@ public class Player extends Entity {
             //Check object collision
             int objIndex = gp.cChecker.checkObject(this, true);
             pickUpObject(objIndex);
-            //if Collision is false player can move
 
+            //check npc collision
             int npcIndex = gp.cChecker.checkEntity(this, gp.npc);
             interactNPC(npcIndex);
 
+            //CHECK MONSTER COLLISION
+            int monsterIndex = gp.cChecker.checkEntity(this, gp.monster);
+            contactMonster(monsterIndex);
+
+            //check events
+            gp.eHandler.checkEvent();
+
+            gp.keyH.enterPressed = false;
+
+            //if Collision is false player can move
             if (!collisionOn) {
                 switch (direction) {
                     case "up":
@@ -120,6 +127,15 @@ public class Player extends Entity {
             speed = originalSpeed;
         }
 
+        // invinciblilty counter
+        if(invincible){
+            invincibleCounter++;
+            if (invincibleCounter >60){
+                invincible = false;
+                invincibleCounter = 0;
+            }
+        }
+
 
     }
 
@@ -138,7 +154,17 @@ public class Player extends Entity {
                 gp.npc[i].speak();
             }
         }
-        gp.keyH.enterPressed = false;
+    }
+
+    public void contactMonster(int i){
+        if (i != 999) {
+            if (!invincible){
+                life --;
+                invincible = true;
+            }
+
+        }
+
     }
 
     public void draw(Graphics g2) {
@@ -182,6 +208,10 @@ public class Player extends Entity {
                 }
                 break;
         }
+        if (invincible){
+            // cant make transparant but would
+        }
+
         g2.drawImage(image, screenX, screenY,null);
 
 
