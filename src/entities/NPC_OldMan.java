@@ -44,7 +44,7 @@ public class NPC_OldMan extends Entity{
         dialogues[5]="Could you lend me a hand, \nI think I dropped my glasses.";
         dialogues[6]="Good luck on your adventure my boy.";
         dialogues[7]="1, 2, 3, 4, 5, why are there so many holes, \nin this damned robe!";
-        dialogues[8]="You know, my grandson use to play with swords, \nhe was certainly much better then you";
+        dialogues[8]="You know, my grandson use to play with swords, \nhe was certainly much better than you";
         dialogues[9]="What are you still doing here boy, \nyou wont find any treasure scrounging around here.";
 
     }

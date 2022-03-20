@@ -29,24 +29,46 @@ public class Entity {
     public int worldX, worldY;
     public String direction = "down";
     boolean attacking = false;
+    public boolean alive = true;
+    public boolean dying = false;
+    public boolean hpBarOn = false;
 
     //COUNTERS
     public int actionLockCounter=0;
     public int spriteCounter = 0;
     public int invincibleCounter = 0;
+    public int dyingCounter = 0;
+    public int hpBarCounter = 0;
 
     //CHARACTER STATS
-    public String name;
     public int type; // 0 player, 1 npc, 2 monster
+    public String name;
+    public int speed;
     public int maxLife;
     public int life;
-    public int speed;
+    public int level;
+    public int strength;
+    public int dexterity;
+    public int attack;
+    public int defence;
+    public int exp;
+    public int nextLevelExp;
+    public int coin;
+    public Entity currentWeapon;
+    public Entity currentShield;
+
+    //ITEM ATTRIBUTES
+    public int attackValue;
+    public int defenceValue;
+    public String description = "";
+
 
     public Entity(GamePanel gp){
         this.gp = gp;
     }
 
     public void setAction(){}
+    public void damageReaction() {}
     public void speak(){
         if(dialogues[dialogueIndex]==null){
             dialogueIndex = 0;
@@ -80,9 +102,16 @@ public class Entity {
         gp.cChecker.checkEntity(this, gp.monster);
         boolean contactPlayer = gp.cChecker.checkPlayer(this);
 
-        if(this.type == 2 && contactPlayer == true){
+        if(this.type == 2 && contactPlayer){
             if(!gp.player.invincible){
-                gp.player.life--;
+                gp.playSE(6);
+
+                int damage = attack - gp.player.defence;
+                if(damage<0)
+                    damage = 0;
+
+                gp.player.life -= damage;
+
                 gp.player.invincible = true;
             }
         }
@@ -113,6 +142,15 @@ public class Entity {
             }
             spriteCounter = 0;
         }
+
+        if(invincible){
+            invincibleCounter++;
+            if (invincibleCounter >60){
+                invincible = false;
+                invincibleCounter = 0;
+            }
+        }
+
     }
     public void draw(Graphics2D g2){
         BufferedImage image = null;
@@ -129,43 +167,82 @@ public class Entity {
                     image = stationary;
                     break;
                 case "up":
-                    if (spriteNum == 1) {
-                        image = up1;
-                    }
-                    if (spriteNum == 2) {
-                        image = up2;
-                    }
+                    if (spriteNum == 1) {image = up1;}
+                    if (spriteNum == 2) {image = up2;}
                     break;
                 case "down":
-                    if (spriteNum == 1) {
-                        image = down1;
-                    }
-                    if (spriteNum == 2) {
-                        image = down2;
-                    }
+                    if (spriteNum == 1) {image = down1;}
+                    if (spriteNum == 2) {image = down2;}
                     break;
                 case "left":
-                    if (spriteNum == 1) {
-                        image = left1;
-                    }
-                    if (spriteNum == 2) {
-                        image = left2;
-                    }
+                    if (spriteNum == 1) {image = left1;}
+                    if (spriteNum == 2) {image = left2;}
                     break;
                 case "right":
-                    if (spriteNum == 1) {
-                        image = right1;
-                    }
-                    if (spriteNum == 2) {
-                        image = right2;
-                    }
+                    if (spriteNum == 1) {image = right1;}
+                    if (spriteNum == 2) {image = right2;}
                     break;
             }
 
+            //Monster HP BAR
+            if (type == 2 && hpBarOn) {
+                double oneScale = (double)gp.tileSize/maxLife;
+                double hpBarValue = oneScale*life;
+
+                g2.setColor(new Color(35,35,35));
+                g2.fillRect(screenX-1,screenY-16,gp.tileSize+2,12);
+
+                g2.setColor(new Color(255,0,30));
+                g2.fillRect(screenX,screenY - 15, (int)hpBarValue, 10);
+
+                hpBarCounter++;
+                if(hpBarCounter > 600){
+                    hpBarCounter = 0;
+                    hpBarOn = false;
+                }
+            }
+
+            if (invincible){
+                hpBarOn = true;
+                hpBarCounter = 0;
+                changeOpacity(g2,0.4f);
+            }
+
+            if(dying){
+                dyingAnimation(g2);
+            }
+
             g2.drawImage(image, screenX, screenY, gp.tileSize, gp.tileSize, null);
+
+            changeOpacity(g2,1f);
         }
 
     }
+
+
+
+    public void dyingAnimation(Graphics2D g2){
+
+        dyingCounter++;
+        int i = 5;
+        if(dyingCounter <= i){changeOpacity(g2,0f);}
+        if(dyingCounter > i   && dyingCounter <= i*2){changeOpacity(g2,1f);}  //CAN BE CHANGED TO AN ANIMATION BY CHANGING IMAGE HERE
+        if(dyingCounter > i*2 && dyingCounter <= i*3){changeOpacity(g2,0f);}  //CAN BE CHANGED TO AN ANIMATION BY CHANGING IMAGE HERE
+        if(dyingCounter > i*3 && dyingCounter <= i*4){changeOpacity(g2,1f);}  //CAN BE CHANGED TO AN ANIMATION BY CHANGING IMAGE HERE
+        if(dyingCounter > i*4 && dyingCounter <= i*5){changeOpacity(g2,0f);}  //CAN BE CHANGED TO AN ANIMATION BY CHANGING IMAGE HERE
+        if(dyingCounter > i*5 && dyingCounter <= i*6){changeOpacity(g2,1f);}  //CAN BE CHANGED TO AN ANIMATION BY CHANGING IMAGE HERE
+        if(dyingCounter > i*6 && dyingCounter <= i*7){changeOpacity(g2,0f);}  //CAN BE CHANGED TO AN ANIMATION BY CHANGING IMAGE HERE
+        if(dyingCounter > i*7 && dyingCounter <= i*8){changeOpacity(g2,1f);}  //CAN BE CHANGED TO AN ANIMATION BY CHANGING IMAGE HERE
+        if (dyingCounter > 40){
+            dying = false;
+            alive = false;
+        }
+    }
+
+    public void changeOpacity(Graphics2D g2, Float alphaValue){
+        g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER,alphaValue));
+    }
+
     public BufferedImage setup(String imagePath,int width,int height) {
         UtilityTool uTool = new UtilityTool();
         BufferedImage image = null;

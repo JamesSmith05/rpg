@@ -2,9 +2,13 @@ package entities;
 
 import logic.KeyHandler;
 import logic.GamePanel;
+import object.OBJ_Key;
+import object.OBJ_Shield_Wood;
+import object.OBJ_Staff_Fire;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 
 public class Player extends Entity {
     GamePanel gp;
@@ -13,6 +17,9 @@ public class Player extends Entity {
     public final int screenX;
     public final int screenY;
     public boolean hasBoots;
+    public boolean attackCancel = false;
+    public ArrayList<Entity> inventory = new ArrayList<>();
+    public final int maxInventorySize = 20;
 
     public Player(GamePanel gp, KeyHandler keyH) {
 
@@ -27,12 +34,13 @@ public class Player extends Entity {
         solidAreaDefaultX = solidArea.x;
         solidAreaDefaultY = solidArea.y;
 
-        attackArea.width = 36;
-        attackArea.height = 36;
+        attackArea.width = 48; //CHANGE FOR ATTACK AREA
+        attackArea.height = 48; //CHANGE FOR ATTACK AREA
 
         setDefaultValues();
         getPlayerImage();
         getPlayerAttackImage();
+        setItems();
     }
 
     public void setDefaultValues() {
@@ -43,8 +51,33 @@ public class Player extends Entity {
         hasBoots = false;
 
         // player stats
+        level = 1;
         maxLife = 6;
         life = maxLife;
+        strength = 1; // more strength he has more damage he deals
+        dexterity = 1; // more dexterity he has less damage he recieves MIGHT CHANGE TO DIFFERENT NAME AND USE DEX AS ACCURACY
+        exp = 0;
+        nextLevelExp = 10;
+        coin = 0;
+        currentWeapon = new OBJ_Staff_Fire(gp);
+        currentShield = new OBJ_Shield_Wood(gp);
+        attack = getAttack(); // the total attack value is strength * weapon attack value
+        defence = getDefence(); // the total defence value is dex * shield defence value
+    }
+
+    public void setItems(){
+        inventory.add(currentWeapon);
+        inventory.add(currentShield);
+        inventory.add(new OBJ_Key(gp));
+        inventory.add(new OBJ_Key(gp));
+
+    }
+
+    public int getAttack(){
+        return attack = strength * currentWeapon.attackValue;
+    }
+    public int getDefence(){
+        return defence = dexterity * currentShield.defenceValue;
     }
 
     public void getPlayerImage() {
@@ -130,6 +163,13 @@ public class Player extends Entity {
                 }
             }
 
+            if(gp.keyH.enterPressed && !attackCancel){
+                gp.playSE(7);
+                attacking = true;
+                spriteCounter = 0;
+            }
+
+            attackCancel = false;
             gp.keyH.enterPressed = false;
 
             spriteCounter++;
@@ -159,31 +199,38 @@ public class Player extends Entity {
     public void attack(){
 
         spriteCounter++;
-        if (spriteCounter<= 5){
+        if (spriteCounter<= 8){
             spriteNum = 1;
         }
-        if(spriteCounter>5 && spriteCounter<=25){
+        if(spriteCounter>8 && spriteCounter<=25){
             spriteNum = 2;
 
             // save current WOLRDX WORLDY SOLIDAREA
             int currentWorldX = worldX;
             int currentWorldY = worldY;
-            int solidAreaWidth = attackArea.width;
-            int solidAreaHeight = attackArea.height;
+            int solidAreaWidth = solidArea.width;
+            int solidAreaHeight = solidArea.height;
 
             //ADJUST FOR ATTACK AREA
             switch (direction){
                 case"up": worldY -= attackArea.height; break;
-                case"down": worldY += attackArea.height;
+                case"down": worldY += attackArea.height; break;
                 case"left": worldX -= attackArea.width; break;
                 case"right": worldX += attackArea.width; break;
             }
 
+            //ATTACK ARE = SOLID AREA
             solidArea.width = attackArea.width;
             solidArea.height = attackArea.height;
 
             int monsterIndex = gp.cChecker.checkEntity(this, gp.monster);
+            damageMonster(monsterIndex);
 
+            //RESTORE VALUES
+            worldX = currentWorldX;
+            worldY = currentWorldY;
+            solidArea.width = solidAreaWidth;
+            solidArea.height = solidAreaHeight;
 
         }
 
@@ -204,11 +251,9 @@ public class Player extends Entity {
     public void interactNPC(int i){
         if(gp.keyH.enterPressed){
             if (i != 999) {
+                attackCancel = true;
                 gp.gameState = gp.dialogueState;
                 gp.npc[i].speak();
-            }
-            else {
-                attacking = true;
             }
         }
     }
@@ -216,12 +261,60 @@ public class Player extends Entity {
     public void contactMonster(int i){
         if (i != 999) {
             if (!invincible){
-                life --;
+                gp.playSE(6);
+
+                int damage = gp.monster[i].attack - gp.player.defence;
+                if(damage<0)
+                    damage = 0;
+
+                life -= damage;
                 invincible = true;
             }
-
         }
+    }
 
+    public void damageMonster(int i) {
+        if (i != 999) {
+            if(!gp.monster[i].invincible){
+
+                gp.playSE(5);
+
+                int damage = attack - gp.monster[i].defence;
+                if(damage<0) {
+                    damage = 0;
+                }
+
+                gp.monster[i].life -= damage;
+
+                gp.ui.addMessage(damage+ " damage!");
+
+                gp.monster[i].invincible = true;
+                gp.monster[i].damageReaction();
+
+                if (gp.monster[i].life <=0){
+                    gp.monster[i].dying = true;
+                    gp.ui.addMessage("killed the "+gp.monster[i].name + "!");
+                    gp.ui.addMessage("Exp + " + gp.monster[i].exp);
+                    exp += gp.monster[i].exp;
+                    checkLevelUp();
+                }
+            }
+        }
+    }
+    public void checkLevelUp(){
+        if(exp >= nextLevelExp){
+            level++;
+            nextLevelExp = (int) (nextLevelExp*1.75);
+            maxLife += 2;
+            strength++;
+            dexterity++;
+            attack = getAttack();
+            defence = getDefence();
+
+            gp.playSE(8);
+            gp.gameState = gp.dialogueState;
+            gp.ui.currentDialogue = "You are level " + level + " now!\nYou feel stronger!";
+        }
     }
 
     public void draw(Graphics2D g2) {
