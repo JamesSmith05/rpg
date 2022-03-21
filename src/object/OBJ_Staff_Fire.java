@@ -11,8 +11,12 @@ public class OBJ_Staff_Fire extends Entity {
 
         name = "Fire Staff";
 
+        type= type_staff;
         down1 = setup("objects/staff_Fire", gp.tileSize, gp.tileSize);
         attackValue = 1;
-        description = "[" + name + "]\nA staff\nit has fire attributes!";
+        attackArea.width = 48;
+        attackArea.height = 48;
+
+        description = "[" + name + "]\nit has fire attributes!";
     }
 }

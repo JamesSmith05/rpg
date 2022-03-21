@@ -3,12 +3,12 @@ package object;
 import entities.Entity;
 import logic.GamePanel;
 
-public class OBJ_Shield_Wood extends Entity {
-    public OBJ_Shield_Wood(GamePanel gp) {
+public class OBJ_Shield_Iron extends Entity {
+    public OBJ_Shield_Iron(GamePanel gp) {
         super(gp);
-        name = "Wood Shield";
+        name = "Iron Shield";
         type= type_shield;
-        down1 = setup("objects/shield_Wood",gp.tileSize, gp.tileSize);
+        down1 = setup("objects/shield_Iron",gp.tileSize, gp.tileSize);
         defenceValue = 1;
         description = "[" + name + "]\nJust and old shield";
     }
