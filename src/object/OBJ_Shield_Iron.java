@@ -9,7 +9,7 @@ public class OBJ_Shield_Iron extends Entity {
         name = "Iron Shield";
         type= type_shield;
         down1 = setup("objects/shield_Iron",gp.tileSize, gp.tileSize);
-        defenceValue = 1;
-        description = "[" + name + "]\nJust and old shield";
+        defenceValue = 2;
+        description = "[" + name + "]\nJust an Iron shield";
     }
 }

@@ -13,7 +13,7 @@ public class OBJ_Staff_Fire extends Entity {
 
         type= type_staff;
         down1 = setup("objects/staff_Fire", gp.tileSize, gp.tileSize);
-        attackValue = 1;
+        attackValue = 3;
         attackArea.width = 48;
         attackArea.height = 48;
 

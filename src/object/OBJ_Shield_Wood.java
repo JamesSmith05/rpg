@@ -10,6 +10,6 @@ public class OBJ_Shield_Wood extends Entity {
         type= type_shield;
         down1 = setup("objects/shield_Wood",gp.tileSize, gp.tileSize);
         defenceValue = 1;
-        description = "[" + name + "]\nJust and old shield";
+        description = "[" + name + "]\nJust an old shield";
     }
 }

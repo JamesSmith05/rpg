@@ -4,11 +4,13 @@ import logic.KeyHandler;
 import logic.GamePanel;
 import object.OBJ_Key;
 import object.OBJ_Shield_Wood;
+import object.OBJ_Staff_Basic;
 import object.OBJ_Staff_Fire;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class Player extends Entity {
     GamePanel gp;
@@ -56,7 +58,7 @@ public class Player extends Entity {
         exp = 0;
         nextLevelExp = 10;
         coin = 0;
-        currentWeapon = new OBJ_Staff_Fire(gp);
+        currentWeapon = new OBJ_Staff_Basic(gp);
         currentShield = new OBJ_Shield_Wood(gp);
         attack = getAttack(); // the total attack value is strength * weapon attack value
         defence = getDefence(); // the total defence value is dex * shield defence value
@@ -65,8 +67,6 @@ public class Player extends Entity {
     public void setItems(){
         inventory.add(currentWeapon);
         inventory.add(currentShield);
-        inventory.add(new OBJ_Key(gp));
-        inventory.add(new OBJ_Key(gp));
 
     }
 
@@ -90,14 +90,28 @@ public class Player extends Entity {
         right2 = setup("player/mage_right_2", gp.tileSize, gp.tileSize);
     }
     public void getPlayerAttackImage(){
-        attackUp1 = setup("player/mage_attack_up_1", gp.tileSize, gp.tileSize*2);
-        attackUp2 = setup("player/mage_attack_up_2", gp.tileSize, gp.tileSize*2);
-        attackDown1 = setup("player/mage_attack_down_1", gp.tileSize, gp.tileSize*2);
-        attackDown2 = setup("player/mage_attack_down_2", gp.tileSize, gp.tileSize*2);
-        attackLeft1 = setup("player/mage_attack_left_1", gp.tileSize*2, gp.tileSize);
-        attackLeft2 = setup("player/mage_attack_left_2", gp.tileSize*2, gp.tileSize);
-        attackRight1 = setup("player/mage_attack_right_1", gp.tileSize*2, gp.tileSize);
-        attackRight2 = setup("player/mage_attack_right_2", gp.tileSize*2, gp.tileSize);
+
+        if(Objects.equals(currentWeapon.name, "Basic Staff") || Objects.equals(currentWeapon.name, "Fire Staff")){
+            attackUp1 = setup("player/mage_attack_up_1", gp.tileSize, gp.tileSize*2);
+            attackUp2 = setup("player/mage_attack_up_2", gp.tileSize, gp.tileSize*2);
+            attackDown1 = setup("player/mage_attack_down_1", gp.tileSize, gp.tileSize*2);
+            attackDown2 = setup("player/mage_attack_down_2", gp.tileSize, gp.tileSize*2);
+            attackLeft1 = setup("player/mage_attack_left_1", gp.tileSize*2, gp.tileSize);
+            attackLeft2 = setup("player/mage_attack_left_2", gp.tileSize*2, gp.tileSize);
+            attackRight1 = setup("player/mage_attack_right_1", gp.tileSize*2, gp.tileSize);
+            attackRight2 = setup("player/mage_attack_right_2", gp.tileSize*2, gp.tileSize);
+        }
+        if(Objects.equals(currentWeapon.name, "Ice Staff")){
+            attackUp1 = setup("player/mage_attack_up_1", gp.tileSize, gp.tileSize*2);
+            attackUp2 = setup("player/mage_attack_up_ice", gp.tileSize, gp.tileSize*2);
+            attackDown1 = setup("player/mage_attack_down_1", gp.tileSize, gp.tileSize*2);
+            attackDown2 = setup("player/mage_attack_down_ice", gp.tileSize, gp.tileSize*2);
+            attackLeft1 = setup("player/mage_attack_left_1", gp.tileSize*2, gp.tileSize);
+            attackLeft2 = setup("player/mage_attack_left_ice", gp.tileSize*2, gp.tileSize);
+            attackRight1 = setup("player/mage_attack_right_1", gp.tileSize*2, gp.tileSize);
+            attackRight2 = setup("player/mage_attack_right_ice", gp.tileSize*2, gp.tileSize);
+        }
+
 
     }
 
@@ -315,6 +329,7 @@ public class Player extends Entity {
         if(exp >= nextLevelExp){
             level++;
             nextLevelExp = (int) (nextLevelExp*1.75);
+            exp = 0;
             maxLife += 2;
             strength++;
             dexterity++;
@@ -324,6 +339,32 @@ public class Player extends Entity {
             gp.playSE(8);
             gp.gameState = gp.dialogueState;
             gp.ui.currentDialogue = "You are level " + level + " now!\nYou feel stronger!";
+        }
+    }
+
+    public void selectItem(){
+
+        int itemIndex = gp.ui.getItemIndexOnSlot();
+
+        if (itemIndex<inventory.size()){
+
+            Entity itemSelected = inventory.get(itemIndex);
+
+            if(itemSelected.type == type_staff ){  //ADD DIFFERENT TYPES OF WEAPONS HERE
+
+                currentWeapon = itemSelected;
+                attack = getAttack();
+                getPlayerAttackImage();
+            }
+            if(itemSelected.type == type_shield){
+                currentShield = itemSelected;
+                defence = getDefence();
+            }
+            if(itemSelected.type == type_consumable){
+
+                itemSelected.use(this);
+                inventory.remove(itemIndex);
+            }
         }
     }
 

@@ -79,6 +79,7 @@ public class Entity {
 
     public void setAction(){}
     public void damageReaction() {}
+    public void use(Entity entity){}
     public void speak(){
         if(dialogues[dialogueIndex]==null){
             dialogueIndex = 0;
@@ -198,6 +199,9 @@ public class Entity {
             if (type == 2 && hpBarOn) {
                 double oneScale = (double)gp.tileSize/maxLife;
                 double hpBarValue = oneScale*life;
+                if(hpBarValue<0){
+                    hpBarValue=0;
+                }
 
                 g2.setColor(new Color(35,35,35));
                 g2.fillRect(screenX-1,screenY-16,gp.tileSize+2,12);
