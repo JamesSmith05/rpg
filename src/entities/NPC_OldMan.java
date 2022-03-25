@@ -11,6 +11,8 @@ public class NPC_OldMan extends Entity{
 
         direction = "down";
         speed = 1;
+        type = type_npc;
+        name = "Bill";
 
         //sets collision area
         solidArea.x = 12;
@@ -46,6 +48,7 @@ public class NPC_OldMan extends Entity{
         dialogues[7]="1, 2, 3, 4, 5, why are there so many holes, \nin this damned robe!";
         dialogues[8]="You know, my grandson use to play with swords, \nhe was certainly much better than you";
         dialogues[9]="What are you still doing here boy, \nyou wont find any treasure scrounging around here.";
+        dialogues[10]="I AM BILL";
 
     }
     public void setAction(){

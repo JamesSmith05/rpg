@@ -14,7 +14,7 @@ public class UI {
 
     GamePanel gp;
     Graphics2D g2;
-    Font cartoon, alagard, arial_28;
+    public Font cartoon, alagard, arial_28;
     BufferedImage heart_full, heart_half,heart_blank;
     public boolean messageOn = false;
 

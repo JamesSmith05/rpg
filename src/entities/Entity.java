@@ -196,7 +196,7 @@ public class Entity {
             }
 
             //Monster HP BAR
-            if (type == 2 && hpBarOn) {
+            if (type == type_monster && hpBarOn) {
                 double oneScale = (double)gp.tileSize/maxLife;
                 double hpBarValue = oneScale*life;
                 if(hpBarValue<0){
@@ -214,6 +214,11 @@ public class Entity {
                     hpBarCounter = 0;
                     hpBarOn = false;
                 }
+            }
+
+            if(type == type_npc){
+                g2.setFont(g2.getFont().deriveFont(26f));
+                g2.drawString(name, screenX,screenY-10);
             }
 
             if (invincible){
