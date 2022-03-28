@@ -228,7 +228,8 @@ public class Entity {
                 dyingAnimation(g2);
             }
 
-            g2.drawImage(image, screenX, screenY, gp.tileSize, gp.tileSize, null);
+//            g2.drawImage(image, screenX, screenY, gp.tileSize, gp.tileSize, null);   old code changed to add bosses
+            g2.drawImage(image, screenX, screenY,null);
 
             changeOpacity(g2,1f);
         }

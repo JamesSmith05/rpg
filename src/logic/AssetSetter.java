@@ -2,6 +2,8 @@ package logic;
 
 import entities.NPC_OldMan;
 import monster.MON_GreenSlime;
+import monster.MON_PinkSlime;
+import monster.boss.BOSS_GreenSlime;
 import object.*;
 
 public class AssetSetter {
@@ -42,8 +44,6 @@ public class AssetSetter {
         gp.obj[i].worldX = gp.tileSize*22;
         gp.obj[i].worldY = gp.tileSize*27;
 
-
-
     }
     public void setNPC(){
 
@@ -75,5 +75,13 @@ public class AssetSetter {
         gp.monster[i] = new MON_GreenSlime(gp);
         gp.monster[i].worldX = gp.tileSize*38;
         gp.monster[i].worldY = gp.tileSize*42;
+        i++;
+        gp.monster[i] = new MON_PinkSlime(gp);
+        gp.monster[i].worldX = gp.tileSize*39;
+        gp.monster[i].worldY = gp.tileSize*42;
+        i++;
+        gp.monster[i] = new BOSS_GreenSlime(gp);
+        gp.monster[i].worldX = gp.tileSize*36;
+        gp.monster[i].worldY = gp.tileSize*10;
     }
 }
