@@ -221,6 +221,11 @@ public class Entity {
                 g2.drawString(name, screenX,screenY-10);
             }
 
+            if (type == type_npc){
+                g2.setFont(g2.getFont().deriveFont(Font.BOLD,20F));
+                g2.drawString("Sam",screenX,screenY-15);
+            }
+
             if (invincible){
                 hpBarOn = true;
                 hpBarCounter = 0;
