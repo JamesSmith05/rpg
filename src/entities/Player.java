@@ -2,10 +2,8 @@ package entities;
 
 import logic.KeyHandler;
 import logic.GamePanel;
-import object.OBJ_Key;
 import object.OBJ_Shield_Wood;
 import object.OBJ_Staff_Basic;
-import object.OBJ_Staff_Fire;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -284,7 +282,7 @@ public class Player extends Entity {
 
     public void contactMonster(int i){
         if (i != 999) {
-            if (!invincible){
+            if (!invincible && !gp.monster[i].dying && gp.monster[i].alive){
                 gp.playSE(6);
 
                 int damage = gp.monster[i].attack - gp.player.defence;
@@ -317,6 +315,7 @@ public class Player extends Entity {
 
                 if (gp.monster[i].life <=0){
                     gp.monster[i].dying = true;
+                    gp.monster[i].collision = false;
                     gp.ui.addMessage("killed the "+gp.monster[i].name + "!");
                     gp.ui.addMessage("Exp + " + gp.monster[i].exp);
                     exp += gp.monster[i].exp;
@@ -328,8 +327,9 @@ public class Player extends Entity {
     public void checkLevelUp(){
         if(exp >= nextLevelExp){
             level++;
+            exp -= nextLevelExp;
             nextLevelExp = (int) (nextLevelExp*1.75);
-            exp = 0;
+
             maxLife += 2;
             strength++;
             dexterity++;

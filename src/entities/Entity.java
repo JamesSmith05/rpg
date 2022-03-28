@@ -69,6 +69,8 @@ public class Entity {
     public final int type_staff = 3;
     public final int type_shield = 4;
     public final int type_consumable = 5;
+    public final int type_smallBoss = 6;
+    public final int type_largeBoss = 7;
 
 
 
@@ -193,15 +195,26 @@ public class Entity {
             }
 
             //Monster HP BAR
-            if (type == type_monster && hpBarOn) {
-                double oneScale = (double)gp.tileSize/maxLife;
+            if ((type == type_monster && hpBarOn) || (type == type_smallBoss && hpBarOn) || (type == type_largeBoss && hpBarOn)) {
+                double oneScale;
+                int width;
+                if (type == type_smallBoss){
+                    oneScale = (double)gp.tileSize*2/maxLife;
+                    width = gp.tileSize*2;
+                }else if (type == type_largeBoss){
+                    oneScale = (double)gp.tileSize*3/maxLife;
+                    width = gp.tileSize*3;
+                }else{
+                    oneScale = (double)gp.tileSize/maxLife;
+                    width = gp.tileSize;
+                }
                 double hpBarValue = oneScale*life;
                 if(hpBarValue<0){
                     hpBarValue=0;
                 }
 
                 g2.setColor(new Color(35,35,35));
-                g2.fillRect(screenX-1,screenY-16,gp.tileSize+2,12);
+                g2.fillRect(screenX-1,screenY-16,width+2,12);
 
                 g2.setColor(new Color(255,0,30));
                 g2.fillRect(screenX,screenY - 15, (int)hpBarValue, 10);
@@ -251,8 +264,9 @@ public class Entity {
         if(dyingCounter > i*6 && dyingCounter <= i*7){changeOpacity(g2,0f);}  //CAN BE CHANGED TO AN ANIMATION BY CHANGING IMAGE HERE
         if(dyingCounter > i*7 && dyingCounter <= i*8){changeOpacity(g2,1f);}  //CAN BE CHANGED TO AN ANIMATION BY CHANGING IMAGE HERE
         if (dyingCounter > 40){
-            dying = false;
             alive = false;
+            dying = false;
+
         }
     }
 

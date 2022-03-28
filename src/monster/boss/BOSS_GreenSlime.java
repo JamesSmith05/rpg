@@ -13,7 +13,7 @@ public class BOSS_GreenSlime extends Entity {
     public BOSS_GreenSlime(GamePanel gp) {
         super(gp);
         this.gp = gp;
-        type = type_monster;
+        type = type_smallBoss;
         name = "BossSlime";
         speed = 1;
         maxLife = 20;
@@ -64,68 +64,6 @@ public class BOSS_GreenSlime extends Entity {
             }
 
             actionLockCounter = 0;
-        }
-    }
-    public void damageReaction(){
-        actionLockCounter = 0;
-        direction = gp.player.direction;
-    }
-
-    public void draw(Graphics2D g2) {
-        BufferedImage image = null;
-
-        int tempScreenX = worldX - gp.player.worldX + gp.player.screenX;
-        int tempScreenY = worldY - gp.player.worldY + gp.player.screenY;
-
-        if (worldX + gp.tileSize > gp.player.worldX - gp.player.screenX &&
-                worldX - gp.tileSize < gp.player.worldX + gp.player.screenX &&
-                worldY + gp.tileSize > gp.player.worldY - gp.player.screenY &&
-                worldY - gp.tileSize < gp.player.worldY + gp.player.screenY) {
-
-            switch (direction) {
-                case "up":
-                    if (spriteNum == 1) {
-                        image = up1;
-                    }
-                    if (spriteNum == 2) {
-                        image = up2;
-                    }
-                    break;
-                case "down":
-                    if (spriteNum == 1) {
-                        image = down1;
-                    }
-                    if (spriteNum == 2) {
-                        image = down2;
-                    }
-                    break;
-                case "left":
-                    if (spriteNum == 1) {
-                        image = left1;
-                    }
-                    if (spriteNum == 2) {
-                        image = left2;
-                    }
-                    break;
-                case "right":
-                    if (spriteNum == 1) {
-                        image = right1;
-                    }
-                    if (spriteNum == 2) {
-                        image = right2;
-                    }
-                    break;
-            }
-            if (invincible) {
-                g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.4F));
-            }
-
-            g2.drawImage(image, tempScreenX, tempScreenY, null);
-
-
-            g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1F));
-
-
         }
     }
 }
