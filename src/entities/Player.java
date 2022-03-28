@@ -375,7 +375,6 @@ public class Player extends Entity {
         int tempScreenX = screenX;
 
         switch (direction) {
-            case "stationary":image = stationary;break;
             case "up":
                 if(!attacking){
                     if (spriteNum == 1) {image = up1;}
