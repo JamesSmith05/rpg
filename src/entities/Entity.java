@@ -174,9 +174,6 @@ public class Entity {
                 worldY- gp.tileSize<gp.player.worldY + gp.player.screenY) {
 
             switch (direction) {
-                case "stationary":
-                    image = stationary;
-                    break;
                 case "up":
                     if (spriteNum == 1) {image = up1;}
                     if (spriteNum == 2) {image = up2;}
