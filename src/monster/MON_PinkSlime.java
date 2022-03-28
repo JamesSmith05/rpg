@@ -3,8 +3,6 @@ package monster;
 import entities.Entity;
 import logic.GamePanel;
 
-import java.util.Random;
-
 public class MON_PinkSlime extends Entity {
 
     GamePanel gp;
