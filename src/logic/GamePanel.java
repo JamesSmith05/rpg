@@ -195,8 +195,24 @@ public class GamePanel extends JPanel implements Runnable {
 
             ui.draw(g2);
 
-            g2.dispose();
         }
+        if(keyH.showDebugText){
+            g2.setFont( new Font("Arial",Font.PLAIN,20));
+            g2.setColor(Color.WHITE);
+            int x = 10;
+            int y = 400;
+            int lineHeight = 20;
+
+            g2.drawString("WorldX " + player.worldX,x,y);
+            y += lineHeight;
+            g2.drawString("WorldY " + player.worldY,x,y);
+            y += lineHeight;
+            g2.drawString("Col " + (player.worldX + player.solidArea.x)/tileSize ,x,y);
+            y += lineHeight;
+            g2.drawString("Row " + (player.worldY + player.solidArea.y)/tileSize,x,y);
+
+        }
+        g2.dispose();
     }
 
         public void playMusic ( int i){

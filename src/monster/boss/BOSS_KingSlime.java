@@ -3,18 +3,16 @@ package monster.boss;
 import entities.Entity;
 import logic.GamePanel;
 
-import java.awt.*;
-import java.awt.image.BufferedImage;
 import java.util.Random;
 
-public class BOSS_GreenSlime extends Entity {
+public class BOSS_KingSlime extends Entity {
     GamePanel gp;
 
-    public BOSS_GreenSlime(GamePanel gp) {
+    public BOSS_KingSlime(GamePanel gp) {
         super(gp);
         this.gp = gp;
         type = type_smallBoss;
-        name = "BossSlime";
+        name = "KingSlime";
         speed = 1;
         maxLife = 20;
         life = maxLife;
@@ -32,14 +30,14 @@ public class BOSS_GreenSlime extends Entity {
         getImage();
     }
     public void getImage (){
-        up1 = setup("monster/greenslime_down_1", gp.tileSize*2, gp.tileSize*2);
-        up2 = setup("monster/greenslime_down_2", gp.tileSize*2, gp.tileSize*2);
-        down1 = setup("monster/greenslime_down_1", gp.tileSize*2, gp.tileSize*2);
-        down2 = setup("monster/greenslime_down_2", gp.tileSize*2, gp.tileSize*2);
-        left1 = setup("monster/greenslime_down_1", gp.tileSize*2, gp.tileSize*2);
-        left2 = setup("monster/greenslime_down_2", gp.tileSize*2, gp.tileSize*2);
-        right1 = setup("monster/greenslime_down_1", gp.tileSize*2, gp.tileSize*2);
-        right2 = setup("monster/greenslime_down_2", gp.tileSize*2, gp.tileSize*2);
+        up1 = setup("monster/kingSlime_down_1", gp.tileSize*2, gp.tileSize*2);
+        up2 = setup("monster/kingSlime_down_2", gp.tileSize*2, gp.tileSize*2);
+        down1 = setup("monster/kingSlime_down_1", gp.tileSize*2, gp.tileSize*2);
+        down2 = setup("monster/kingSlime_down_2", gp.tileSize*2, gp.tileSize*2);
+        left1 = setup("monster/kingSlime_down_1", gp.tileSize*2, gp.tileSize*2);
+        left2 = setup("monster/kingSlime_down_2", gp.tileSize*2, gp.tileSize*2);
+        right1 = setup("monster/kingSlime_down_1", gp.tileSize*2, gp.tileSize*2);
+        right2 = setup("monster/kingSlime_down_2", gp.tileSize*2, gp.tileSize*2);
     }
 
     public void setAction(){

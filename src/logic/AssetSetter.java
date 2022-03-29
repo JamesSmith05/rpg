@@ -4,7 +4,7 @@ import entities.NPC_OldMan;
 import monster.MON_GreenSlime;
 import monster.MON_PinkSlime;
 import monster.boss.BOSS_God;
-import monster.boss.BOSS_GreenSlime;
+import monster.boss.BOSS_KingSlime;
 import object.*;
 
 public class AssetSetter {
@@ -81,7 +81,7 @@ public class AssetSetter {
         gp.monster[i].worldX = gp.tileSize*39;
         gp.monster[i].worldY = gp.tileSize*42;
         i++;
-        gp.monster[i] = new BOSS_GreenSlime(gp);
+        gp.monster[i] = new BOSS_KingSlime(gp);
         gp.monster[i].worldX = gp.tileSize*36;
         gp.monster[i].worldY = gp.tileSize*10;
         i++;

@@ -9,6 +9,8 @@ public class KeyHandler implements KeyListener{
 
     public boolean upPressed, downPressed, leftPressed, rightPressed, shiftPressed, altPressed, enterPressed;
 
+    boolean showDebugText = false;
+
     public KeyHandler(GamePanel gp){
         this.gp = gp;
     }
@@ -79,11 +81,20 @@ public class KeyHandler implements KeyListener{
         }
         if(code == KeyEvent.VK_P){
             gp.gameState = gp.pauseState;
-
         }
         if(code == KeyEvent.VK_ENTER){
             enterPressed = true;
+        }
 
+        //debug
+        if(code == KeyEvent.VK_T){
+            showDebugText = !showDebugText;
+        }
+        if(code == KeyEvent.VK_O){
+            gp.tileM.loadMap("/resources/maps/worldMap02.txt");
+        }
+        if(code == KeyEvent.VK_I){
+            gp.tileM.loadMap("/resources/maps/worldMap03.txt");
         }
     }
     public void pauseState(int code){
