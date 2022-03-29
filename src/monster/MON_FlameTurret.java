@@ -15,13 +15,13 @@ public class MON_FlameTurret extends Entity {
         super(gp);
         this.gp = gp;
         type = type_monster;
-        name = "GreenSlime";
+        name = "FireSpirit";
         speed = 0;
         maxLife = 12;
         life = maxLife;
         attack = 4;
         defence = 0;
-        exp = 2;
+        exp = 8;
 
         solidArea.x = 3;
         solidArea.y = 18;

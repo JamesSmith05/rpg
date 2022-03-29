@@ -122,6 +122,16 @@ public class GamePanel extends JPanel implements Runnable {
     }
 
     public void update() {
+
+        if(player.life<= 0){
+            gameState = dialogueState;
+            ui.currentDialogue = "YOU DIED \nPRESS [ENTER] TO RESTART";
+            player.setDefaultValues();
+            aSetter.setObject();
+            aSetter.setNPC();
+            aSetter.setMonster();
+        }
+
         if(gameState == playState){
             player.update();
             for (int i = 0; i < npc.length; i++) {

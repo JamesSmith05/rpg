@@ -38,7 +38,6 @@ public class Player extends Entity {
         setDefaultValues();
         getPlayerImage();
         getPlayerAttackImage();
-        setItems();
     }
 
     public void setDefaultValues() {
@@ -57,8 +56,10 @@ public class Player extends Entity {
         exp = 0;
         nextLevelExp = 10;
         coin = 0;
+        inventory.clear();
         currentWeapon = new OBJ_Staff_Basic(gp);
         currentShield = new OBJ_Shield_Wood(gp);
+        setItems();
         projectile = new OBJ_Fireball(gp);
         attack = getAttack(); // the total attack value is strength * weapon attack value
         defence = getDefence(); // the total defence value is dex * shield defence value
@@ -116,7 +117,6 @@ public class Player extends Entity {
     }
 
     public void update() {
-
         if(attacking){
             attack();
         }
