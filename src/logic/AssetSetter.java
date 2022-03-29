@@ -1,6 +1,7 @@
 package logic;
 
 import entities.NPC_OldMan;
+import monster.MON_FlameTurret;
 import monster.MON_GreenSlime;
 import monster.MON_PinkSlime;
 import monster.boss.BOSS_God;
@@ -88,5 +89,9 @@ public class AssetSetter {
         gp.monster[i] = new BOSS_God(gp);
         gp.monster[i].worldX = gp.tileSize*10;
         gp.monster[i].worldY = gp.tileSize*31;
+        i++;
+        gp.monster[i] = new MON_FlameTurret(gp);
+        gp.monster[i].worldX = gp.tileSize*14;
+        gp.monster[i].worldY = gp.tileSize*21;
     }
 }

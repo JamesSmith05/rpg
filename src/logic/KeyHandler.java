@@ -7,7 +7,7 @@ public class KeyHandler implements KeyListener{
 
     GamePanel gp;
 
-    public boolean upPressed, downPressed, leftPressed, rightPressed, shiftPressed, altPressed, enterPressed;
+    public boolean upPressed, downPressed, leftPressed, rightPressed, shiftPressed, altPressed, enterPressed, shootKeyPressed;
 
     boolean showDebugText = false;
 
@@ -78,6 +78,9 @@ public class KeyHandler implements KeyListener{
         }
         if(code == KeyEvent.VK_C){
             gp.gameState = gp.characterState;
+        }
+        if(code == KeyEvent.VK_F){
+            shootKeyPressed = true;
         }
         if(code == KeyEvent.VK_P){
             gp.gameState = gp.pauseState;
@@ -163,6 +166,9 @@ public class KeyHandler implements KeyListener{
         }
         if(code == KeyEvent.VK_ALT){
             altPressed = false;
+        }
+        if(code == KeyEvent.VK_F){
+            shootKeyPressed = false;
         }
     }
 }

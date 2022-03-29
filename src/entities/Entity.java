@@ -11,6 +11,7 @@ public class Entity {
 
     GamePanel gp;
     public BufferedImage up1, up2, down1, down2, left1, left2, right1, right2;
+    public BufferedImage upR1,upR2,upL1,upL2,downR1,downR2,downL1,downL2;
     public BufferedImage attackUp1, attackUp2, attackDown1, attackDown2, attackLeft1, attackLeft2, attackRight1, attackRight2;
     public BufferedImage image, image2, image3;
     public Rectangle solidArea = new Rectangle(0, 0, 48, 48);
@@ -37,6 +38,7 @@ public class Entity {
     public int actionLockCounter=0;
     public int spriteCounter = 0;
     public int invincibleCounter = 0;
+    public int shotAvailableCounter = 0;
     public int dyingCounter = 0;
     public int hpBarCounter = 0;
 
@@ -45,6 +47,8 @@ public class Entity {
     public int speed;
     public int maxLife;
     public int life;
+    public int maxMana;
+    public int mana;
     public int level;
     public int strength;
     public int dexterity;
@@ -55,11 +59,13 @@ public class Entity {
     public int coin;
     public Entity currentWeapon;
     public Entity currentShield;
+    public Projectile projectile;
 
     //ITEM ATTRIBUTES
     public int attackValue;
     public int defenceValue;
     public String description = "";
+    public int useCost;
 
     //TYPE
     public int type; // 0 player, 1 npc, 2 monster ,
@@ -265,7 +271,6 @@ public class Entity {
         if(dyingCounter > i*7 && dyingCounter <= i*8){changeOpacity(g2,1f);}  //CAN BE CHANGED TO AN ANIMATION BY CHANGING IMAGE HERE
         if (dyingCounter > 40){
             alive = false;
-            dying = false;
 
         }
     }
