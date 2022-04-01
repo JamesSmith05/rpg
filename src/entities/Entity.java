@@ -200,6 +200,11 @@ public class Entity {
                     break;
             }
 
+            if(type == type_npc){
+                g2.setFont(g2.getFont().deriveFont(26f));
+                g2.drawString(name, screenX,screenY-10);
+            }
+
             //Monster HP BAR
             if ((type == type_monster && hpBarOn) || (type == type_smallBoss && hpBarOn) || (type == type_largeBoss && hpBarOn)) {
                 double oneScale;
@@ -230,11 +235,6 @@ public class Entity {
                     hpBarCounter = 0;
                     hpBarOn = false;
                 }
-            }
-
-            if(type == type_npc){
-                g2.setFont(g2.getFont().deriveFont(26f));
-                g2.drawString(name, screenX,screenY-10);
             }
 
             if (invincible){
