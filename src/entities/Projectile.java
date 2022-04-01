@@ -37,17 +37,9 @@ public class Projectile extends Entity{
 
             boolean contactPlayer = gp.cChecker.checkPlayer(this);
 
-            if (contactPlayer) {
-                if (!gp.player.invincible) {
-                    gp.playSE(6);
-
-                    int damage = user.attack + attack - gp.player.defence;
-                    if (damage < 0)
-                        damage = 0;
-                    gp.player.life -= damage;
-
-                    gp.player.invincible = true;
-                }
+            if (contactPlayer && !gp.player.invincible) {
+                    damagePlayer(attack);
+                    alive = false;
             }
 
         }
